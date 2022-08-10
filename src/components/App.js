@@ -1,7 +1,7 @@
 import {React,useState} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../context/UserContext";
-import TrendingHashtag from "./TrendingHashtag";
+import TrendingHashtag from "../components/TrendingHashtag/TrendingHashtag"
 
 export default function App(){
     const [user, setUser] = useState({});
