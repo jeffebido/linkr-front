@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from 'react';
 import UserContext from "../../context/UserContext";
-//import { ThreeDots } from "react-loader-spinner";
 
 export default function TrendingHashtag(){
 
@@ -24,8 +23,8 @@ export default function TrendingHashtag(){
         {hashtag:"arrays"},
         {hashtag:"strings"}
     ]
-    console.log(hashtags.length)
-    console.log(hashtags)
+    // console.log(hashtags.length)
+    // console.log(hashtags)
     return(
         <>
             <TrendHashtag>
