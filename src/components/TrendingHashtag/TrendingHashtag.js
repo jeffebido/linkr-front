@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from 'react';
 import UserContext from "../../context/UserContext";
+import dotenv from "dotenv";
 
 export default function TrendingHashtag(){
 
@@ -11,7 +12,30 @@ export default function TrendingHashtag(){
     const { user } = useContext(UserContext);
     const { name, email, token } = user;
 
-    let hashtags = [
+    //const [hashtags, setHashtags] = useState([]);
+    // dotenv.config();
+
+    // useEffect(() => {
+       
+    //     loadHashtags();
+
+    // }, []);
+
+    // const config = {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    // };
+
+    // function loadHashtags(){
+    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trendings`,config);
+
+    //     promise.then(resposta => {
+    //         setHashtags(resposta.data);
+    //     });
+    // }
+
+    let hashtags = [ //VAI VIR PELO GET DPS
         {hashtag: "javascript"},
         {hashtag: "react"},
         {hashtag:"dom"},

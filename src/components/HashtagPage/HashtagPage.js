@@ -11,9 +11,30 @@ import { useParams } from "react-router-dom";
 export default function HashtagPage(){
 
     const {hashtag} = useParams();
+    //const [hashtagsposts, setHashtagsposts] = useState([]);
+    
 
-    //console.log(params);
-    //console.log(hashtag);
+    // dotenv.config();
+
+    // useEffect(() => {
+       
+    //     loadHashtagposts();
+
+    // }, []);
+
+    // const config = {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    // };
+
+    // function loadHashtagposts(){
+    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`,config);
+
+    //     promise.then(resposta => {
+    //         setHashtagsposts(resposta.data);
+    //     });
+    // }
 
     return(
         <>
