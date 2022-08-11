@@ -12,8 +12,19 @@ export default function TrendingHashtag(){
     const { user } = useContext(UserContext);
     const { name, email, token } = user;
 
-    //const [hashtags, setHashtags] = useState([]);
-    // dotenv.config();
+    const [hashtags, setHashtags] = useState([]);
+    dotenv.config();
+
+ ///////////////////////////////////////////////////////////////
+    useEffect(() => {
+        const promise = axios.get(`http://www.localhost:4000/trending`); // <---- ,config : falta o token pois é rota autenticada
+        promise.then((res) => {
+            setHashtags(res.data);
+        })
+    }, [])
+/////////////////////////////////////////////////////////////
+
+    //http://www.localhost:4000/trending
 
     // useEffect(() => {
        
@@ -21,12 +32,11 @@ export default function TrendingHashtag(){
 
     // }, []);
 
-    // const config = {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    // };
-
+    const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+    };
     // function loadHashtags(){
     //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trendings`,config);
 
@@ -34,21 +44,7 @@ export default function TrendingHashtag(){
     //         setHashtags(resposta.data);
     //     });
     // }
-
-    let hashtags = [ //VAI VIR PELO GET DPS
-        {hashtag: "javascript"},
-        {hashtag: "react"},
-        {hashtag:"dom"},
-        {hashtag:"css"},
-        {hashtag:"mongo"},
-        {hashtag:"sql"},
-        {hashtag:"posgres"},
-        {hashtag:"html"},
-        {hashtag:"arrays"},
-        {hashtag:"strings"}
-    ]
-    // console.log(hashtags.length)
-    // console.log(hashtags)
+  
     return(
         <>
             <TrendHashtag>
@@ -58,10 +54,15 @@ export default function TrendingHashtag(){
                 <Line>
                 </Line>
                 <HashtagsBox>
-                    {/* <h2 onClick={()=>navigate(`/hashtag/${hashtag}`)}>  #{hashtag} </h2> */}
-                    {hashtags.map( ({hashtag}) => {
+                    {hashtags.map( ({hashtags}) => {
+
+                        if(hashtags.length<1){
+                            return <h2>Sem # em trends</h2>
+                        }
+                        else{
+                            return <h2 key={hashtags} onClick={()=>navigate(`/hashtag/${hashtags}`)}> # {hashtags} </h2>
+                        }
                         
-                        return <h2 key={hashtag} onClick={()=>navigate(`/hashtag/${hashtag}`)}> # {hashtag} </h2>
                         
                     })}
                 </HashtagsBox>
