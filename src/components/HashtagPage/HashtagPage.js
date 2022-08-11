@@ -6,35 +6,43 @@ import { useEffect, useContext, useState } from 'react';
 import UserContext from "../../context/UserContext";
 import TrendingHashtag from "../TrendingHashtag/TrendingHashtag";
 import { useParams } from "react-router-dom";
+import dotenv from "dotenv";
 //import Header from "../Header/Header";
 
 export default function HashtagPage(){
 
+    const navigate = useNavigate();
+    const { user } = useContext(UserContext);
+    const { name, email, token } = user;
     const {hashtag} = useParams();
-    //const [hashtagsposts, setHashtagsposts] = useState([]);
+
+    const [hashtagsposts, setHashtagsposts] = useState([]);
     
 
-    // dotenv.config();
+    dotenv.config();
 
-    // useEffect(() => {
+    useEffect(() => {
        
-    //     loadHashtagposts();
+        loadHashtagposts();
 
-    // }, []);
+    }, []);
 
-    // const config = {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    // };
+    const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+    };
+    
+    function loadHashtagposts(){
+        const promise = axios.get(`http://localhost:4000/hashtag/${hashtag}`); ////falta o config depois da "," pois é autenticada
+        //const promise = axios.get(`http://www.localhost:4000/trending/${hashtag}`,config);
 
-    // function loadHashtagposts(){
-    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`,config);
+        promise.then(resposta => {
+            setHashtagsposts(resposta.data);
+        });
+    }
 
-    //     promise.then(resposta => {
-    //         setHashtagsposts(resposta.data);
-    //     });
-    // }
+    //console.log(hashtagsposts);
 
     return(
         <>
