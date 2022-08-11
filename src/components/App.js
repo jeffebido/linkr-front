@@ -12,7 +12,7 @@ export default function App(){
             <Routes>
                 
                 <Route path="/hashtag/:hashtag" element={<HashtagPage/>} />
-                <Route path="/hashtag" element={<TrendingHashtag/>} /> {/*essa rota nao existe! precisa importar o componente apenas*/}
+                <Route path="/hashtag" element={<TrendingHashtag/>} /> {/*essa rota nao existe! precisa importar o componente apenas- doing that*/}
 
             </Routes>
         </BrowserRouter>
