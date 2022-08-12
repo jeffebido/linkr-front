@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
+import urlMetadata from "url-metadata";
+import { Bars } from  'react-loader-spinner'
 
 import Post from "../../common/Post";
 
 export default function Timeline() {
 
-
+    
 
 
     const [posts, setPosts] = useState();
+    const [hideLoading, setHideLoading] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
 
@@ -17,12 +22,24 @@ export default function Timeline() {
             headers: { Authorization: `Bearer token-aqqui` }
         };
 
-        const promise = axios.get(`http://localhost:5000/timeline`, config);
+        const promise = axios.get(`http://localhost:5000/timeline`, config).catch(function (error) {
+            if (error.response) {
+                if(error.response.status == 404){
+                    setHideLoading(true);
+                    setShowError(true);
+                    setErrorMessage('There are no posts yet');
+                }else{
+                    setHideLoading(true);
+                    setShowError(true);
+                    setErrorMessage('An error occured while trying to fetch the posts, please refresh the page');
+                }
+            }
+          });
 
         promise.then(response => {
 
             setPosts(response.data);
-            //console.log(response.data)
+            
         });
 
      
@@ -36,12 +53,12 @@ export default function Timeline() {
                 <Container>
                     <Heading>timeline</Heading>
 
-                    {posts == null ? (<>Não há posts</>) : (
+                    {posts == null ? (<Loading display={hideLoading}><Bars height="80" width="80" radius="9" color='#fff' secondaryColor='#fff'/><h1>Loading...</h1></Loading>) : (
                         
-                        posts.map( (post, index) => <Post profilePicture={post.picture_url} postAuthor={post.author} postDescription={post.description} postLink={post.url} key={index}/>)
+                        posts.map( (post, index) => <Post post={post} key={index}/>)
                         
                     )}
-
+                    <Error  display={showError}>{errorMessage}</Error>
                 </Container>
             </Root>
         </>
@@ -65,4 +82,29 @@ const Heading = styled.h1`
     color: #fff;
     font-family: 'Oswald', sans-serif;
 `;
+const Loading = styled.div`
+	width: 100%;
+    height: 150px;
+    color: #ffff;
+    font-family: 'Lato';
+    font-size: 30px;
+    display: ${props => props.display ? "none": "flex"};
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+`;
+const Error = styled.div`
+	width: 100%;
+    height: 150px;
+    color: #ffff;
+    font-family: 'Lato';
+    font-size: 20px;
+    text-align: center;
+    display: ${props => props.display ? "flex": "none"};
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+`;
+
+
 
