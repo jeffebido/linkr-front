@@ -38,12 +38,13 @@ export default function TrendingHashtag(){
         }
     };
     // function loadHashtags(){
-    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trendings`,config);
+    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trending`,config);
 
     //     promise.then(resposta => {
     //         setHashtags(resposta.data);
     //     });
     // }
+   // console.log(hashtags);
   
     return(
         <>
