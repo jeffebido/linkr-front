@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
-import urlMetadata from "url-metadata";
 import { Bars } from  'react-loader-spinner'
+import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../../context/UserContext";
+
+import Header from "../../layout/Header";
 
 import Post from "../../common/Post";
 
 export default function Timeline() {
 
+    const navigate = useNavigate();
+
+    const { user } = useContext(UserContext);
     
-
-
     const [posts, setPosts] = useState();
     const [hideLoading, setHideLoading] = useState(false);
     const [showError, setShowError] = useState(false);
@@ -19,22 +23,28 @@ export default function Timeline() {
     useEffect(() => {
 
         const config = {
-            headers: { Authorization: `Bearer token-aqqui` }
+            headers: { Authorization: `Bearer ${user.token}` }
         };
 
         const promise = axios.get(`http://localhost:5000/timeline`, config).catch(function (error) {
             if (error.response) {
-                if(error.response.status == 404){
-                    setHideLoading(true);
-                    setShowError(true);
-                    setErrorMessage('There are no posts yet');
-                }else{
-                    setHideLoading(true);
-                    setShowError(true);
-                    setErrorMessage('An error occured while trying to fetch the posts, please refresh the page');
+                
+                switch (error.response.status) {
+                    case 404:
+                        setHideLoading(true);
+                        setShowError(true);
+                        setErrorMessage('There are no posts yet');
+                      break;
+                    case 401:
+                        navigate("/");
+                      break;
+                    default:
+                        setHideLoading(true);
+                        setShowError(true);
+                        setErrorMessage('An error occured while trying to fetch the posts, please refresh the page');
                 }
             }
-          });
+        });
 
         promise.then(response => {
 
@@ -42,13 +52,12 @@ export default function Timeline() {
             
         });
 
-     
     }, []);
-
 
     return (
 
         <>  
+            <Header />
             <Root>
                 <Container>
                     <Heading>timeline</Heading>
@@ -66,6 +75,7 @@ export default function Timeline() {
 }
 
 const Root = styled.div`
+    margin-top: 72px;
 	width: 100%;
     height: 100%;
 	display: flex;
