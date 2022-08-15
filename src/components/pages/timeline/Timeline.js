@@ -3,17 +3,20 @@ import styled from 'styled-components';
 import axios from "axios";
 import { Bars } from  'react-loader-spinner'
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../../context/UserContext";
+import UserContext from "../../../context/UserContext";
 
 import Header from "../../layout/Header";
 
 import Post from "../../common/Post";
+import NewPost from "../../common/NewPost";
 
 export default function Timeline() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(UserContext);
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    const  user  = useContext(UserContext);
     
     const [posts, setPosts] = useState();
     const [hideLoading, setHideLoading] = useState(false);
@@ -21,12 +24,12 @@ export default function Timeline() {
     const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
-
+        
         const config = {
             headers: { Authorization: `Bearer ${user.token}` }
         };
 
-        const promise = axios.get(`http://localhost:5000/timeline`, config).catch(function (error) {
+        const promise = axios.get(`${API_URL}/timeline`, config).catch(function (error) {
             if (error.response) {
                 
                 switch (error.response.status) {
@@ -48,8 +51,9 @@ export default function Timeline() {
 
         promise.then(response => {
 
-            setPosts(response.data);
-            
+            if(response){
+                setPosts(response.data);
+            }
         });
 
     }, []);
@@ -61,13 +65,13 @@ export default function Timeline() {
             <Root>
                 <Container>
                     <Heading>timeline</Heading>
-
+                    <NewPost />
                     {posts == null ? (<Loading display={hideLoading}><Bars height="80" width="80" radius="9" color='#fff' secondaryColor='#fff'/><h1>Loading...</h1></Loading>) : (
                         
                         posts.map( (post, index) => <Post post={post} key={index}/>)
                         
                     )}
-                    <Error  display={showError}>{errorMessage}</Error>
+                    <Error display={showError}>{errorMessage}</Error>
                 </Container>
             </Root>
         </>
@@ -104,6 +108,7 @@ const Loading = styled.div`
     flex-direction: column;
 `;
 const Error = styled.div`
+    margin-top: 100px;
 	width: 100%;
     height: 150px;
     color: #ffff;

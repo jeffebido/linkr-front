@@ -8,7 +8,7 @@ import Timeline from "./pages/timeline/Timeline";
 import UserContext from "../context/UserContext";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState(null);
   const [image, setImage] = useState(null);
   const [token, setToken] = useState(null);
   const [updateListPosts, setUpdateListPosts] = useState(0);
@@ -17,8 +17,8 @@ export default function App() {
     <BrowserRouter>
       <UserContext.Provider
         value={{
-          user,
-          setUser,
+          username,
+          setUsername,
           image,
           setImage,
           token,

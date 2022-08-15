@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IoChevronDown } from "react-icons/io5";
+import UserContext from "../../context/UserContext";
 
 export default function Header() {
 
-    
+    const user = useContext(UserContext);
+
     return (
 
         <Navbar>
             <Logo>linkr</Logo>
             <UserInfo>
                 <IoChevronDown />
-                <ProfilePicture src=""/>
+                <ProfilePicture src={user.image}/>
             </UserInfo>
         </Navbar>
     );
@@ -44,7 +46,7 @@ const Logo = styled.div`
 const ProfilePicture = styled.img`
    height: 50px;
    width: 50px;
-   border-radius: 25%;
+   border-radius: 50%;
    margin-left: 15px;
 `;
 const UserInfo = styled.div`
