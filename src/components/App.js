@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import SignIn from "./pages/SignIn/signInPage";
 import SignUp from "./pages/SignUp/signUpPage";
+import TrendingHashtag from "../components/TrendingHashtag/TrendingHashtag"
+import HashtagPage from "./HashtagPage/HashtagPage";
 
 import UserContext from "../context/UserContext";
 
@@ -29,9 +31,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          {/* <Route path="/timeline" element={<Timeline />} />
-          <Route path="/hashtag/:hashtag" element={<Trend />} />
-          <Route path="/user/:id" element={<UserPage />} /> */}
+          <Route path="/hashtag/:hashtag" element={<HashtagPage/>} />
+          <Route path="/hashtag" element={<TrendingHashtag/>} /> {/*essa rota nao existe! precisa importar o componente apenas- doing that*/}
         </Routes>
       </UserContext.Provider>
     </BrowserRouter>
