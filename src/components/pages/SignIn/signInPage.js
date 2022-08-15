@@ -17,10 +17,11 @@ export default function Signin() {
   const { setUsername, setToken, setImage } = useContext(UserContext);
 
   function Autologin() {
-    if (dadosUsuario) {
-      setUsername(dadosUsuario.name);
+    if (dadosUsuario.token) {
+      setUsername(dadosUsuario.username);
       setToken(dadosUsuario.token);
       setImage(dadosUsuario.image);
+      
       navigate("/timeline");
     }
   }
@@ -46,15 +47,15 @@ export default function Signin() {
 
     const promise = axios.post(`${API_URL}/signin`, data);
     promise.then((res) => {
-      const { name, token, image } = res.data;
+      const { username, token, picture_url } = res.data;
       setLocal("linkrUserdata", {
         token: token,
-        name,
-        image,
+        username: username,
+        image: picture_url,
       });
-      setUsername(name);
+      setUsername(username);
       setToken(token);
-      setImage(image);
+      setImage(picture_url);
       setLoadingButton(false);
       navigate("/timeline");
     });

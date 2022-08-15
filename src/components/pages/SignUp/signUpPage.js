@@ -27,13 +27,13 @@ export default function SignUp() {
     const API_URL = process.env.REACT_APP_API_URL;
     if ((email || password || username || pictureUrl) !== null) {
       const URL = `${API_URL}/signup`;
-
+      
       const promise = axios.post(URL, dadosCadastrados);
       promise
-        .then((_) => {
+        .then(() => {
           navigate("/");
         })
-        .catch((_) => {
+        .catch(() => {
           Notify.failure("Esse email já está em uso");
           setHabilitado(true);
         });
