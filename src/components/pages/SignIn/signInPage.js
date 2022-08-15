@@ -33,6 +33,7 @@ export default function Signin() {
     setLoadingButton(true);
 
     const API_URL = process.env.REACT_APP_API_URL;
+   // let API_URL = 'http://localhost:4000'
 
     const data = {
       email,
@@ -43,7 +44,7 @@ export default function Signin() {
       alert("Preencha todos os campos");
     }
 
-    const promise = axios.post(`${API_URL}/login`, data);
+    const promise = axios.post(`${API_URL}/signin`, data);
     promise.then((res) => {
       const { name, token, image } = res.data;
       setLocal("linkrUserdata", {
