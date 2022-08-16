@@ -4,6 +4,7 @@ import axios from "axios";
 import { Bars } from  'react-loader-spinner'
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/UserContext";
+import TrendingHashtag from '../../TrendingHashtag/TrendingHashtag';
 
 import Header from "../../layout/Header";
 
@@ -73,6 +74,7 @@ export default function Timeline() {
                     )}
                     <Error display={showError}>{errorMessage}</Error>
                 </Container>
+                <TrendingHashtag></TrendingHashtag>
             </Root>
         </>
     );

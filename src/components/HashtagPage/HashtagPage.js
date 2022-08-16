@@ -3,22 +3,25 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from 'react';
-import UserContext from "../../context/UserContext";
+//import UserContext from "../../context/UserContext";
 import TrendingHashtag from "../TrendingHashtag/TrendingHashtag";
 import { useParams } from "react-router-dom";
 import dotenv from "dotenv";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 //import Header from "../Header/Header";
+import UserContext from "../../context/UserContext";
+import Header from "../layout/Header";
+
 
 export default function HashtagPage(){
 
     const navigate = useNavigate();
-    const { user } = useContext(UserContext);
-    const { name, email, token } = user;
+    const user = useContext(UserContext);
+    //const { username, email, token } = user;
     const {hashtag} = useParams();
 
     const [hashtagsposts, setHashtagsposts] = useState([]);
-    
+    const API_URL = process.env.REACT_APP_API_URL;
 
     dotenv.config();
 
@@ -30,12 +33,12 @@ export default function HashtagPage(){
 
     const config = {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${user.token}`
         }
     };
     
     function loadHashtagposts(){
-        const promise = axios.get(`http://localhost:4000/hashtag/${hashtag}`); ////falta o config depois da "," pois é autenticada
+        const promise = axios.get(`http://localhost:4000/hashtag/${hashtag}`, config); ////falta o config depois da "," pois é autenticada
         //const promise = axios.get(`http://www.localhost:4000/trending/${hashtag}`,config);
 
         promise.then(resposta => {
@@ -53,8 +56,11 @@ export default function HashtagPage(){
 
     }
 
+    console.log(hashtag);
+
     return(
         <>
+            <Header></Header>
             <HashtagContainer>
                 <TitleHashtag>
                     <h1># {hashtag}</h1>
@@ -70,6 +76,9 @@ export default function HashtagPage(){
                             if(likes.length=='null'){
                                 likes.length = 0;
                             }
+
+                            console.log(username);
+
 
                             return <Posts>
 
@@ -194,7 +203,7 @@ const HashtagContainer=styled.div`
 
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 53px;
+    margin-top: 73px;
 
 `
 
