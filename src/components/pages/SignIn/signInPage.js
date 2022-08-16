@@ -17,7 +17,7 @@ export default function Signin() {
   const { setUsername, setToken, setImage } = useContext(UserContext);
 
   function Autologin() {
-    if (dadosUsuario.token) {
+    if (dadosUsuario) {
       setUsername(dadosUsuario.username);
       setToken(dadosUsuario.token);
       setImage(dadosUsuario.image);
