@@ -3,21 +3,24 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from 'react';
-import UserContext from "../../context/UserContext";
+//import UserContext from "../../context/UserContext";
 import dotenv from "dotenv";
+import UserContext from "../../context/UserContext";
 
 export default function TrendingHashtag(){
 
     const navigate = useNavigate();
-    const { user } = useContext(UserContext);
-    const { name, email, token } = user;
+    const user = useContext(UserContext);
+    //const { username, email, token } = user;
+    //const { token } = user;
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const [hashtags, setHashtags] = useState([]);
     dotenv.config();
 
  ///////////////////////////////////////////////////////////////
     useEffect(() => {
-        const promise = axios.get(`http://www.localhost:4000/trending`); // <---- ,config : falta o token pois é rota autenticada
+        const promise = axios.get(`${API_URL}/trending`, config); // <---- ,config : falta o token pois é rota autenticada
         promise.then((res) => {
             setHashtags(res.data);
         })
@@ -34,16 +37,17 @@ export default function TrendingHashtag(){
 
     const config = {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${user.token}`
         }
     };
     // function loadHashtags(){
-    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trendings`,config);
+    //     const promise = axios.get(`${process.env.REACT_APP_URL_API}/trending`,config);
 
     //     promise.then(resposta => {
     //         setHashtags(resposta.data);
     //     });
     // }
+   // console.log(hashtags);
   
     return(
         <>
@@ -60,7 +64,7 @@ export default function TrendingHashtag(){
                             return <h2>Sem # em trends</h2>
                         }
                         else{
-                            return <h2 key={hashtags} onClick={()=>navigate(`/hashtag/${hashtags}`)}> # {hashtags} </h2>
+                            return <h2 key={hashtags} onClick={()=>navigate(`/hashtag/${hashtags}`)}># {hashtags} </h2>
                         }
                         
                         
@@ -71,7 +75,8 @@ export default function TrendingHashtag(){
     )
 }
 const TrendHashtag=styled.div`
-
+    margin-top: 127px;
+    margin-left: 15px;
     width: 301px;
     height: 406px;
     background: #171717;
