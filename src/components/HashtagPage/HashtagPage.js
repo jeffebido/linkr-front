@@ -3,12 +3,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from 'react';
-//import UserContext from "../../context/UserContext";
 import TrendingHashtag from "../TrendingHashtag/TrendingHashtag";
 import { useParams } from "react-router-dom";
 import dotenv from "dotenv";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-//import Header from "../Header/Header";
 import UserContext from "../../context/UserContext";
 import Header from "../layout/Header";
 
@@ -38,8 +36,7 @@ export default function HashtagPage(){
     };
     
     function loadHashtagposts(){
-        const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config); ////falta o config depois da "," pois é autenticada
-        //const promise = axios.get(`http://www.localhost:4000/trending/${hashtag}`,config);
+        const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config); 
 
         promise.then(resposta => {
             setHashtagsposts(...[resposta.data]);
@@ -70,12 +67,7 @@ export default function HashtagPage(){
 
                     <PostsZone>
                         
-                        {hashtagsposts.map( ({username, picture_url, description, hashtags, likes, url}) =>{
-                            
-
-                            if(likes.length=='null'){
-                                likes.length = 0;
-                            }
+                        {hashtagsposts.map( ({username, picture_url, description, hashtags, coalesce, url}) =>{
 
                             console.log(username);
 
@@ -85,9 +77,9 @@ export default function HashtagPage(){
                                         <Left>
                                             <img key={picture_url} src={picture_url} />
 
-                                            {isLiked? <Liked onClick={toggleLike}/> : <NotLiked onClick={toggleLike} />}
+                                            {isLiked? <NotLiked onClick={toggleLike}/> : <NotLiked onClick={toggleLike} />}
 
-                                            <h3 key={likes} >{likes.split(',').length} likes</h3>
+                                            <h3 key={coalesce} >{coalesce.split(',').length-1} likes</h3>
                                         </Left>
                                         <Right>
                                             <h1>{username}</h1>
