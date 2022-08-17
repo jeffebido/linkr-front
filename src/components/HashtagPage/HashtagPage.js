@@ -38,7 +38,7 @@ export default function HashtagPage(){
     };
     
     function loadHashtagposts(){
-        const promise = axios.get(`http://localhost:4000/hashtag/${hashtag}`, config); ////falta o config depois da "," pois é autenticada
+        const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config); ////falta o config depois da "," pois é autenticada
         //const promise = axios.get(`http://www.localhost:4000/trending/${hashtag}`,config);
 
         promise.then(resposta => {
