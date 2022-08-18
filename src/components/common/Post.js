@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import UserContext from "../../context/UserContext";
 
 //export default function Post(props, post_id, userId) {
@@ -38,7 +39,6 @@ import UserContext from "../../context/UserContext";
                 config);
     
                 setIsFavorite(!isFavorite);
-                //getFavorites(postId);
                 
             } catch (e) {
     
@@ -47,10 +47,9 @@ import UserContext from "../../context/UserContext";
     
     async function removeFavorite() {
             try {
-                await axios.delete(`${API_URL}/posts/favorite/${post_id}/${userId}`,config);
+                await axios.delete(`${API_URL}/posts/delfavorite/`, {post_id} ,config);
     
                 setIsFavorite(false);
-                //getFavorites(postId);
     
             } catch (e) {
                 console.log(e)
@@ -58,17 +57,18 @@ import UserContext from "../../context/UserContext";
             }
     }
 
-	//console.log(props)
-    //console.log(props.post.post_id)
-
-
     return (
 
         <Box>
             <PostInfo>
                 <ImgProfile src={props.post.picture_url} />
 
-                {isLiked? <NotLiked onClick={onClickFavorite}/> : <Liked onClick={toggleLike} />}
+                {/* {isLiked? <NotLiked onClick={onClickFavorite}/> : <Liked onClick={toggleLike} />} */}
+                <LikeContainer iconColor={isFavorite ? 'AC0C00' : "FFFFFF"} >
+                                {isFavorite ? <IoIosHeart onClick={removeFavorite} /> 
+                                : <IoIosHeartEmpty onClick={onClickFavorite} />}
+
+                </LikeContainer>
 
                 <h3 >{props.post.coalesce.split(',').length-1} likes</h3>
 
@@ -96,6 +96,26 @@ import UserContext from "../../context/UserContext";
     );
 }
 
+const LikeContainer = styled.div`
+    margin-top: 15px;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    svg{
+        width: 25px;
+        height: 25px;
+        color: #${props => props.iconColor};
+        margin-bottom: 10px;
+    }
+    h6{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #FFFFFF;
+    }
+`
+
 
 const Box = styled.div`
     background: #171717;
@@ -112,6 +132,12 @@ const PostInfo = styled.div`
     width: 70px;
     h3{
         color:white;
+    }
+    svg{
+        width: 25px;
+        height: 25px;
+        color: #${props => props.iconColor};
+        margin-bottom: 10px;
     }
 `;
 const PostContainer = styled.div`
@@ -188,17 +214,4 @@ const UrlImage = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-`;
-
-const Liked = styled(IoHeart)`
-
-    margin-top: 19px;
-    fill: #AC0000;
-    font-size: 25px;
-`;
-
-const NotLiked = styled(IoHeartOutline)`
-    margin-top: 19px;
-    color: #FFF;
-    font-size: 25px;
 `;

@@ -47,13 +47,13 @@ export default function HashtagPage(){
 
     const [isLiked, setIsLiked] = useState(true);
 
-    function toggleLike(){
+    // function toggleLike(){
 
-        setIsLiked=(!isLiked);
+    //     setIsLiked=(!isLiked);
 
-    }
+    // }
 
-    console.log(hashtag);
+    // console.log(hashtag);
 
     return(
         <>
@@ -77,7 +77,7 @@ export default function HashtagPage(){
                                         <Left>
                                             <img key={picture_url} src={picture_url} />
 
-                                            {isLiked? <NotLiked onClick={toggleLike}/> : <NotLiked onClick={toggleLike} />}
+                                             <NotLiked/>
 
                                             <h3 key={coalesce} >{coalesce.split(',').length-1} likes</h3>
                                         </Left>
