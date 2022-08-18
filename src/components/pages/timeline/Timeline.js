@@ -59,6 +59,8 @@ export default function Timeline() {
 
     }, []);
 
+    console.log(posts)
+
     return (
 
         <>  

@@ -1,16 +1,77 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import UserContext from "../../context/UserContext";
 
-export default function Post(props) {
+//export default function Post(props, post_id, userId) {
+    export default function Post(props, userId) {
 
+
+    const [isLiked, setIsLiked] = useState(true);
+    const user = useContext(UserContext);
+
+
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    function toggleLike(){
+
+        setIsLiked=(!isLiked);
+
+    }
+
+    const API_URL = process.env.REACT_APP_API_URL;
+        
+    const config = {
+        headers: { Authorization: `Bearer ${user.token}`}
+    };
+
+    const {post_id} = props.post
+    console.log(post_id);
+
+    async function onClickFavorite() {
+        
+            try {
+                await axios.post(`${API_URL}/posts/favorite`,
+                {post_id},
+                config);
     
+                setIsFavorite(!isFavorite);
+                //getFavorites(postId);
+                
+            } catch (e) {
+    
+            }
+    }
+    
+    async function removeFavorite() {
+            try {
+                await axios.delete(`${API_URL}/posts/favorite/${post_id}/${userId}`,config);
+    
+                setIsFavorite(false);
+                //getFavorites(postId);
+    
+            } catch (e) {
+                console.log(e)
+    
+            }
+    }
+
+	//console.log(props)
+    //console.log(props.post.post_id)
+
+
     return (
 
         <Box>
             <PostInfo>
                 <ImgProfile src={props.post.picture_url} />
+
+                {isLiked? <NotLiked onClick={onClickFavorite}/> : <Liked onClick={toggleLike} />}
+
+                <h3 >{props.post.coalesce.split(',').length-1} likes</h3>
+
             </PostInfo>
             <PostContainer>
                 <Author>{props.post.author}</Author>
@@ -49,6 +110,9 @@ const PostInfo = styled.div`
     flex-direction: column;
     align-items: center;
     width: 70px;
+    h3{
+        color:white;
+    }
 `;
 const PostContainer = styled.div`
     width: 100%;
@@ -124,4 +188,17 @@ const UrlImage = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+`;
+
+const Liked = styled(IoHeart)`
+
+    margin-top: 19px;
+    fill: #AC0000;
+    font-size: 25px;
+`;
+
+const NotLiked = styled(IoHeartOutline)`
+    margin-top: 19px;
+    color: #FFF;
+    font-size: 25px;
 `;
