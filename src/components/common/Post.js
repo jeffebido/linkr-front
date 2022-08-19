@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import UserContext from "../../context/UserContext";
 
