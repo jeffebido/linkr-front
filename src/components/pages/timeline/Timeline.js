@@ -12,76 +12,74 @@ import Post from "../../common/Post";
 import NewPost from "../../common/NewPost";
 
 export default function Timeline() {
-  const navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
-  const user = useContext(UserContext);
-  const [posts, setPosts] = useState();
-  const [hideLoading, setHideLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
 
-  useEffect(() => {
-    const config = {
-      headers: { Authorization: `Bearer ${user.token}` },
-    };
+    const navigate = useNavigate();
 
-    const promise = axios
-      .get(`${API_URL}/timeline`, config)
-      .catch(function (error) {
-        if (error.response) {
-          switch (error.response.status) {
-            case 404:
-              setHideLoading(true);
-              setShowError(true);
-              setErrorMessage("There are no posts yet");
-              break;
-            case 401:
-              navigate("/");
-              break;
-            default:
-              setHideLoading(true);
-              setShowError(true);
-              setErrorMessage(
-                "An error occured while trying to fetch the posts, please refresh the page"
-              );
-          }
-        }
-      });
+    const API_URL = process.env.REACT_APP_API_URL;
 
-    promise.then((response) => {
-      if (response) {
-        setPosts(response.data);
-      }
-    });
-  }, []);
+    const  user  = useContext(UserContext);
+    
+    const [posts, setPosts] = useState();
+    const [hideLoading, setHideLoading] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
 
-  return (
-    <>
-      <Header />
-      <Root>
-        <Container>
-          <Heading>timeline</Heading>
-          <NewPost />
-          {posts == null ? (
-            <Loading display={hideLoading}>
-              <Bars
-                height="80"
-                width="80"
-                radius="9"
-                color="#fff"
-                secondaryColor="#fff"
-              />
-              <h1>Loading...</h1>
-            </Loading>
-          ) : (
-            posts.map((post, index) => <Post post={post} key={index} />)
-          )}
-          <Error display={showError}>{errorMessage}</Error>
-        </Container>
-        <TrendingHashtag></TrendingHashtag>
-      </Root>
-    </>
-  );
+    useEffect(() => {
+        
+        const config = {
+            headers: { Authorization: `Bearer ${user.token}` }
+        };
+
+        const promise = axios.get(`${API_URL}/timeline`, config).catch(function (error) {
+            if (error.response) {
+                
+                switch (error.response.status) {
+                    case 404:
+                        setHideLoading(true);
+                        setShowError(true);
+                        setErrorMessage('There are no posts yet');
+                      break;
+                    case 401:
+                        navigate("/");
+                      break;
+                    default:
+                        setHideLoading(true);
+                        setShowError(true);
+                        setErrorMessage('An error occured while trying to fetch the posts, please refresh the page');
+                }
+            }
+        });
+
+        promise.then(response => {
+
+            if(response){
+                setPosts(response.data);
+            }
+        });
+
+    }, []);
+
+    console.log(posts)
+
+    return (
+
+        <>  
+            <Header />
+            <Root>
+                <Container>
+                    <Heading>timeline</Heading>
+                    <NewPost />
+                    {posts == null ? (<Loading display={hideLoading}><Bars height="80" width="80" radius="9" color='#fff' secondaryColor='#fff'/><h1>Loading...</h1></Loading>) : (
+                        
+                        posts.map( (post, index) => <Post post={post} key={index}/>)
+                        
+                    )}
+                    <Error display={showError}>{errorMessage}</Error>
+                </Container>
+                <TrendingHashtag></TrendingHashtag>
+            </Root>
+        </>
+    );
 }
 
 const Root = styled.div`

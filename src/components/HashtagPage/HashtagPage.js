@@ -10,98 +10,105 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import UserContext from "../../context/UserContext";
 import Header from "../layout/Header";
 
-export default function HashtagPage() {
-  const navigate = useNavigate();
-  const user = useContext(UserContext);
-  const { hashtag } = useParams();
+export default function HashtagPage(){
 
-  const [hashtagsposts, setHashtagsposts] = useState([]);
-  const API_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
+    const user = useContext(UserContext);
+    //const { username, email, token } = user;
+    const {hashtag} = useParams();
 
-  dotenv.config();
+    const [hashtagsposts, setHashtagsposts] = useState([]);
+    const API_URL = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    loadHashtagposts();
-  }, []);
+    dotenv.config();
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  };
+    useEffect(() => {
+       
+        loadHashtagposts();
 
-  function loadHashtagposts() {
-    const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config);
+    }, []);
 
-    promise.then((resposta) => {
-      setHashtagsposts(...[resposta.data]);
-    });
-  }
+    const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+    };
+    
+    function loadHashtagposts(){
+        const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config); 
 
-  console.log(hashtagsposts);
+        promise.then(resposta => {
+            setHashtagsposts(...[resposta.data]);
+        });
+    }
 
-  const [isLiked, setIsLiked] = useState(true);
+    console.log(hashtagsposts);
 
-  function toggleLike() {
-    setIsLiked = !isLiked;
-  }
+    const [isLiked, setIsLiked] = useState(true);
 
-  console.log(hashtag);
+    // function toggleLike(){
 
-  return (
-    <>
-      <Header></Header>
-      <HashtagContainer>
-        <TitleHashtag>
-          <h1># {hashtag}</h1>
-        </TitleHashtag>
+    //     setIsLiked=(!isLiked);
 
-        <PostAndTrendingzone>
-          <PostsZone>
-            {hashtagsposts.map(
-              ({
-                username,
-                picture_url,
-                description,
-                hashtags,
-                coalesce,
-                url,
-              }) => {
-                console.log(username);
+    // }
 
-                return (
-                  <Posts>
-                    <Left>
-                      <img key={picture_url} src={picture_url} />
+    // console.log(hashtag);
 
-                      {isLiked ? (
-                        <NotLiked onClick={toggleLike} />
-                      ) : (
-                        <NotLiked onClick={toggleLike} />
-                      )}
+    return(
+        <>
+            <Header></Header>
+            <HashtagContainer>
+                <TitleHashtag>
+                    <h1># {hashtag}</h1>
+                </TitleHashtag>
 
-                      <h3 key={coalesce}>
-                        {coalesce.split(",").length - 1} likes
-                      </h3>
-                    </Left>
-                    <Right>
-                      <h1>{username}</h1>
-                      <h4>
-                        {description} <h1>#{hashtags}</h1>
-                      </h4>
-                      <UrlBox></UrlBox>
-                    </Right>
-                  </Posts>
-                );
-              }
-            )}
-          </PostsZone>
+                <PostAndTrendingzone>
 
-          <TrendingHashtag></TrendingHashtag>
-        </PostAndTrendingzone>
-      </HashtagContainer>
-    </>
-  );
+                    <PostsZone>
+                        
+                        {hashtagsposts.map( ({username, picture_url, description, hashtags, coalesce, url}) =>{
+
+                            console.log(username);
+
+
+                            return <Posts>
+
+                                        <Left>
+                                            <img key={picture_url} src={picture_url} />
+
+                                             <NotLiked/>
+
+                                            <h3 key={coalesce} >{coalesce.split(',').length-1} likes</h3>
+                                        </Left>
+                                        <Right>
+                                            <h1>{username}</h1>
+                                            <h4>{description}  <h1>#{hashtags}</h1></h4>
+                                            <UrlBox>
+
+                                            </UrlBox>
+                                        </Right>
+
+
+                                   </Posts>
+                        }
+
+                        )}
+
+                    </PostsZone>
+
+
+                    <TrendingHashtag>
+
+                    </TrendingHashtag>
+
+                </PostAndTrendingzone>
+
+            </HashtagContainer>
+            
+        </>
+        
+    )
+
 }
 const UrlBox = styled.div`
   width: 503px;
