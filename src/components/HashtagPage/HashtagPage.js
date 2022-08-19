@@ -1,8 +1,8 @@
 import React from "react";
-import styled from 'styled-components';
-import axios from 'axios';
+import styled from "styled-components";
+import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from "react";
 import TrendingHashtag from "../TrendingHashtag/TrendingHashtag";
 import { useParams } from "react-router-dom";
 import dotenv from "dotenv";
@@ -10,219 +10,202 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import UserContext from "../../context/UserContext";
 import Header from "../layout/Header";
 
+export default function HashtagPage() {
+  const navigate = useNavigate();
+  const user = useContext(UserContext);
+  const { hashtag } = useParams();
 
-export default function HashtagPage(){
+  const [hashtagsposts, setHashtagsposts] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
-    const navigate = useNavigate();
-    const user = useContext(UserContext);
-    //const { username, email, token } = user;
-    const {hashtag} = useParams();
+  dotenv.config();
 
-    const [hashtagsposts, setHashtagsposts] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL;
+  useEffect(() => {
+    loadHashtagposts();
+  }, []);
 
-    dotenv.config();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
 
-    useEffect(() => {
-       
-        loadHashtagposts();
+  function loadHashtagposts() {
+    const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config);
 
-    }, []);
+    promise.then((resposta) => {
+      setHashtagsposts(...[resposta.data]);
+    });
+  }
 
-    const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-    };
-    
-    function loadHashtagposts(){
-        const promise = axios.get(`${API_URL}/hashtag/${hashtag}`, config); 
+  console.log(hashtagsposts);
 
-        promise.then(resposta => {
-            setHashtagsposts(...[resposta.data]);
-        });
-    }
+  const [isLiked, setIsLiked] = useState(true);
 
-    console.log(hashtagsposts);
+  function toggleLike() {
+    setIsLiked = !isLiked;
+  }
 
-    const [isLiked, setIsLiked] = useState(true);
+  console.log(hashtag);
 
-    function toggleLike(){
+  return (
+    <>
+      <Header></Header>
+      <HashtagContainer>
+        <TitleHashtag>
+          <h1># {hashtag}</h1>
+        </TitleHashtag>
 
-        setIsLiked=(!isLiked);
+        <PostAndTrendingzone>
+          <PostsZone>
+            {hashtagsposts.map(
+              ({
+                username,
+                picture_url,
+                description,
+                hashtags,
+                coalesce,
+                url,
+              }) => {
+                console.log(username);
 
-    }
+                return (
+                  <Posts>
+                    <Left>
+                      <img key={picture_url} src={picture_url} />
 
-    console.log(hashtag);
+                      {isLiked ? (
+                        <NotLiked onClick={toggleLike} />
+                      ) : (
+                        <NotLiked onClick={toggleLike} />
+                      )}
 
-    return(
-        <>
-            <Header></Header>
-            <HashtagContainer>
-                <TitleHashtag>
-                    <h1># {hashtag}</h1>
-                </TitleHashtag>
+                      <h3 key={coalesce}>
+                        {coalesce.split(",").length - 1} likes
+                      </h3>
+                    </Left>
+                    <Right>
+                      <h1>{username}</h1>
+                      <h4>
+                        {description} <h1>#{hashtags}</h1>
+                      </h4>
+                      <UrlBox></UrlBox>
+                    </Right>
+                  </Posts>
+                );
+              }
+            )}
+          </PostsZone>
 
-                <PostAndTrendingzone>
-
-                    <PostsZone>
-                        
-                        {hashtagsposts.map( ({username, picture_url, description, hashtags, coalesce, url}) =>{
-
-                            console.log(username);
-
-
-                            return <Posts>
-
-                                        <Left>
-                                            <img key={picture_url} src={picture_url} />
-
-                                            {isLiked? <NotLiked onClick={toggleLike}/> : <NotLiked onClick={toggleLike} />}
-
-                                            <h3 key={coalesce} >{coalesce.split(',').length-1} likes</h3>
-                                        </Left>
-                                        <Right>
-                                            <h1>{username}</h1>
-                                            <h4>{description}  <h1>#{hashtags}</h1></h4>
-                                            <UrlBox>
-
-                                            </UrlBox>
-                                        </Right>
-
-
-                                   </Posts>
-                        }
-
-                        )}
-
-                    </PostsZone>
-
-
-                    <TrendingHashtag>
-
-                    </TrendingHashtag>
-
-                </PostAndTrendingzone>
-
-            </HashtagContainer>
-            
-        </>
-        
-    )
-
+          <TrendingHashtag></TrendingHashtag>
+        </PostAndTrendingzone>
+      </HashtagContainer>
+    </>
+  );
 }
 const UrlBox = styled.div`
+  width: 503px;
+  height: 155px;
+  left: 328px;
+  top: 571px;
 
-    width: 503px;
-    height: 155px;
-    left: 328px;
-    top: 571px;
-
-    border: 1px solid #4D4D4D;
-    border-radius: 11px;
-    margin-top: 9px;
-
-`
+  border: 1px solid #4d4d4d;
+  border-radius: 11px;
+  margin-top: 9px;
+`;
 
 const Left = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    h3{
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 13px;
-        text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3 {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 13px;
+    text-align: center;
 
-        color: #FFFFFF;
-    }
-
+    color: #ffffff;
+  }
 `;
 const Right = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 19px;
-    h4{
-        margin-top: 8px;
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 17px;
-        line-height: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 19px;
+  h4 {
+    margin-top: 8px;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
 
-        color: #B7B7B7;
-    }
+    color: #b7b7b7;
+  }
 `;
 
 const PostsZone = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Posts = styled.div`
+  display: flex;
 
-    display: flex;
+  width: 611px;
+  height: 276px;
+  left: 241px;
+  top: 230px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-sizing: border-box;
 
-    width: 611px;
-    height: 276px;
-    left: 241px;
-    top: 230px;
-    margin-bottom: 16px;
-    padding: 16px;
-    box-sizing: border-box;
-
-    background: #171717;
-    border-radius: 16px;
-    margin-right: 25px;
-    h1{
-        color:white;
-    }
-    img{
-        height: 50px;
+  background: #171717;
+  border-radius: 16px;
+  margin-right: 25px;
+  h1 {
+    color: white;
+  }
+  img {
+    height: 50px;
     width: 50px;
     border-radius: 50%;
-    }
-`
+  }
+`;
 
 const PostAndTrendingzone = styled.div`
-    width: auto;
-    display: flex;
-`
+  width: auto;
+  display: flex;
+`;
 
-const HashtagContainer=styled.div`
+const HashtagContainer = styled.div`
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 73px;
+`;
 
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-top: 73px;
+const TitleHashtag = styled.div`
+  h1 {
+    font-family: "Oswald";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 43px;
+    line-height: 64px;
 
-`
+    /* identical to box height */
 
-const TitleHashtag=styled.div`
-
-    h1{
-        font-family: 'Oswald';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 43px;
-        line-height: 64px;
-
-        /* identical to box height */
-
-        color: #FFFFFF;
-    }
-
-`
+    color: #ffffff;
+  }
+`;
 const Liked = styled(IoHeart)`
-
-    margin-top: 19px;
-    fill: #AC0000;
-    font-size: 25px;
+  margin-top: 19px;
+  fill: #ac0000;
+  font-size: 25px;
 `;
 
 const NotLiked = styled(IoHeartOutline)`
-    margin-top: 19px;
-    color: #FFF;
-    font-size: 25px;
+  margin-top: 19px;
+  color: #fff;
+  font-size: 25px;
 `;
