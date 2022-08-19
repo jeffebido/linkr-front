@@ -148,6 +148,7 @@ const ImgProfile = styled.img`
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 const Title = styled.h2`
   font-family: "Lato";
