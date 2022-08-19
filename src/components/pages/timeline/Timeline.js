@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
+import { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
 import axios from "axios";
-import { Bars } from  'react-loader-spinner'
+import { Bars } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/UserContext";
-import TrendingHashtag from '../../TrendingHashtag/TrendingHashtag';
+import TrendingHashtag from "../../TrendingHashtag/TrendingHashtag";
 
 import Header from "../../layout/Header";
 
@@ -83,47 +83,44 @@ export default function Timeline() {
 }
 
 const Root = styled.div`
-    margin-top: 72px;
-	width: 100%;
-    height: 100%;
-	display: flex;
-    justify-content: center;
+  margin-top: 72px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 `;
 const Container = styled.div`
-	width: 700px;
-    max-width: 700px;
+  width: 700px;
+  max-width: 700px;
 `;
 const Heading = styled.h1`
-	font-size: 45px;
-    line-height: 100px;
-    font-weight: bold;
-    color: #fff;
-    font-family: 'Oswald', sans-serif;
+  font-size: 45px;
+  line-height: 100px;
+  font-weight: bold;
+  color: #fff;
+  font-family: "Oswald", sans-serif;
 `;
 const Loading = styled.div`
-	width: 100%;
-    height: 150px;
-    color: #ffff;
-    font-family: 'Lato';
-    font-size: 30px;
-    display: ${props => props.display ? "none": "flex"};
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+  width: 100%;
+  height: 150px;
+  color: #ffff;
+  font-family: "Lato";
+  font-size: 30px;
+  display: ${(props) => (props.display ? "none" : "flex")};
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 `;
 const Error = styled.div`
-    margin-top: 100px;
-	width: 100%;
-    height: 150px;
-    color: #ffff;
-    font-family: 'Lato';
-    font-size: 20px;
-    text-align: center;
-    display: ${props => props.display ? "flex": "none"};
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+  margin-top: 100px;
+  width: 100%;
+  height: 150px;
+  color: #ffff;
+  font-family: "Lato";
+  font-size: 20px;
+  text-align: center;
+  display: ${(props) => (props.display ? "flex" : "none")};
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 `;
-
-
-

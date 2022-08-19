@@ -113,15 +113,13 @@ const LikeContainer = styled.div`
         color: #FFFFFF;
     }
 `
-
-
 const Box = styled.div`
-    background: #171717;
-    border-radius: 16px;
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    margin-top: 30px;
+  background: #171717;
+  border-radius: 16px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  margin-top: 30px;
 `;
 const PostInfo = styled.div`
     display: flex;
@@ -139,77 +137,77 @@ const PostInfo = styled.div`
     }
 `;
 const PostContainer = styled.div`
-    width: 100%;
-    margin-left: 20px;
-    font-family: 'Lato';
-    a{
-        text-decoration: none;
-    }
+  width: 100%;
+  margin-left: 20px;
+  font-family: "Lato";
+  a {
+    text-decoration: none;
+  }
 `;
 const ImgProfile = styled.img`
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 `;
 const Author = styled.h2`
-   font-family: 'Lato';
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 23px;
-    color: #fff;
+  font-family: "Lato";
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 23px;
+  color: #fff;
 `;
 const Description = styled.h3`
-    font-family: 'Lato';
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 20px;
-    color: #B7B7B7;
-    margin-top: 20px;
+  font-family: "Lato";
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  color: #b7b7b7;
+  margin-top: 20px;
 `;
 const UrlData = styled.div`
-    border: 1px solid #4D4D4D;
-    margin-top: 20px;
-    border-radius: 11px;
-    height: 150px;
-    display: flex;
-    justify-content: space-between;
-    transition: 200ms all ease-in;
-   :hover{
+  border: 1px solid #4d4d4d;
+  margin-top: 20px;
+  border-radius: 11px;
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  transition: 200ms all ease-in;
+  :hover {
     background-color: #2d2d2d;
-   }
+  }
 `;
 const UrlInfo = styled.div`
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 400px;
-    h1{
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        color: #CECECE;
-    }
-    p{
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        color: #CECECE;
-    }
-    h4{
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        color: #9B9595;
-    }
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 400px;
+  h1 {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #cecece;
+  }
+  p {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #cecece;
+  }
+  h4 {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #9b9595;
+  }
 `;
 const UrlImage = styled.div`
-    height: 100%;
-    width: 150px;
-    border-top-right-radius: 11px;
-    border-bottom-right-radius: 11px;
-    background: url( ${props => props.bkg || ""} );
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  height: 100%;
+  width: 150px;
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 11px;
+  background: url(${(props) => props.bkg || ""});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 `;

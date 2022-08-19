@@ -1,8 +1,8 @@
 import React from "react";
-import styled from 'styled-components';
-import axios from 'axios';
+import styled from "styled-components";
+import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import TrendingHashtag from "../TrendingHashtag/TrendingHashtag";
 import { useParams } from "react-router-dom";
